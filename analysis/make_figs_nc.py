@@ -53,7 +53,7 @@ fig.savefig('fig1_overview.png'); plt.close(fig)
 fig, axes = plt.subplots(1, 3, figsize=(7.2, 2.4))
 ss = r3['summary_static']
 order = ['train_mean', 'drug_onehot_ridge', 'cross_line_mean', 'weighted_transfer', 'line_mean_loo']
-labels = ['Train\nmean', 'Drug one-hot\nridge', 'Cross-line\nmean', 'Weighted\ntransfer', 'Line mean\n(LOO)']
+labels = ['Train', '1-hot', 'Cross-\nline', 'Weighted', 'Line\nmean']
 vals = [ss[k]['mean'] for k in order]
 errs = [ss[k]['sd']/np.sqrt(ss[k]['n']) for k in order]
 axes[0].bar(range(len(order)), vals, yerr=errs, capsize=2, color=[C['gray']]*4 + [C['accent']])
@@ -61,7 +61,7 @@ axes[0].bar([len(order)], [r3['lc_summary']['0.2']['mean']], color=C['purple'])
 axes[0].axhline(r5['ceiling_sb']['sb_corrected_mean'], color='k', ls='--', lw=0.8)
 axes[0].text(1.2, r5['ceiling_sb']['sb_corrected_mean']+0.02, 'noise ceiling (SB)', fontsize=6)
 axes[0].set_xticks(range(len(order)+1))
-axes[0].set_xticklabels(labels + ['Few-shot\n20%'], fontsize=5.5)
+axes[0].set_xticklabels(labels + ['Few-shot\n20%'], fontsize=5, rotation=45, ha='right')
 axes[0].set_ylabel('Pearson r (top-2000 HV genes)')
 axes[0].set_title('LOCO transfer', fontsize=8)
 pl(axes[0], 'a')
@@ -73,7 +73,7 @@ axes[1].axhline(r5['ceiling_sb']['sb_corrected_mean'], color='k', ls='--', lw=0.
 axes[1].axhline(ss['line_mean_loo']['mean'], color=C['accent'], ls=':', lw=0.8, label='Line mean (LOO)')
 axes[1].set_xlabel('Calibration drugs (%)'); axes[1].set_ylabel('Pearson r')
 axes[1].set_title('Learning curve (10 seeds)', fontsize=8)
-axes[1].legend(frameon=False)
+axes[1].legend(frameon=False, loc='lower right')
 pl(axes[1], 'b')
 fbl = r3['fewshot20_by_line']
 ks = [k for k in fbl if not np.isnan(fbl[k])]
@@ -82,6 +82,7 @@ axes[2].axhline(r5['ceiling_sb']['sb_corrected_mean'], color='k', ls='--', lw=0.
 axes[2].set_xticks(range(len(ks))); axes[2].set_xticklabels(ks, rotation=45, ha='right')
 axes[2].set_ylabel('Pearson r'); axes[2].set_title('Few-shot by line', fontsize=8)
 pl(axes[2], 'c')
+fig.subplots_adjust(wspace=0.55)
 fig.savefig('fig2_loco.png'); plt.close(fig)
 print('fig1-2 ok')
 
