@@ -141,6 +141,9 @@ python src/train_fused.py --magnet 1 --epochs 40 --lambda_pds 0.05 --batch 16 --
 - `weights/world_magnet_fused005.pt` — 最佳模型权重
 - `weights/world_magnet_fused005_metrics.json` — 评测明细（含逐条件 DES）
 - `paper/MagWorld_ICLR2027.pdf` — 完整论文（方法、实验、阴性结果）
+- `analysis/` — **Nature Communications 投稿配套分析代码**：sci-Plex（GEO GSE225775）与
+  Norman 2019（Zenodo 10044268）全部图表与统计量的复现脚本、缓存结果与 Figures 1–6，
+  详见 `analysis/README.md`
 
 ## 引文 (Citation)
 
