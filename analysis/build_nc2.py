@@ -10,7 +10,8 @@ st.font.name = 'Times New Roman'; st.font.size = Pt(11)
 lines = open('manuscript_nc.md', encoding='utf-8').read().split('\n')
 figmap = {'Figure 1.': 'fig1_overview.png', 'Figure 2.': 'fig2_loco.png',
           'Figure 3.': 'fig3_decomposition.png', 'Figure 4.': 'fig4_dose.png',
-          'Figure 5.': 'fig5_norman.png', 'Figure 6.': 'fig6_ablation.png'}
+          'Figure 5.': 'fig5_norman.png', 'Figure 6.': 'fig6_ablation.png',
+          'Figure 7.': 'fig7_crest.png'}
 for ln in lines:
     s = ln.strip()
     if not s:
