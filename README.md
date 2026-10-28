@@ -1,4 +1,4 @@
-# MagWorld Virtual Cell（3dworld）
+# MagWorld Virtual Cell
 
 基于 AI 的虚拟细胞研究代码库：用单细胞组学 + 电镜断层数据构建可预测、可生成的「虚拟细胞」。包含两条研究线：
 
@@ -31,7 +31,7 @@
 - 共表达谱（对照细胞基因 PCA 嵌入）
 - HGNC 基因家族特征
 
-### 算法演进（`worldmodel/model_world_h1_v*.py`，13 → 37）
+### 算法演进（`worldmodel/model_world_h1_v*.py`，13 → 38）
 
 | 版本 | 核心思想 |
 |---|---|
@@ -41,12 +41,19 @@
 | v24-v25 | **磁流（curie-weiss 风格场）模型**，`model_world_h1_v25.py` 为冠军底座 |
 | v30-v34 | 规模与训练策略迭代（辅助任务、DGIDB 图先验、正则化） |
 | v35-v36 | 局部校验与结构精简（`test_v35_37_local.py`） |
-| **v37（当前最新）** | v25 磁流冠军 + **kq 作用力因果链**：扰动因子场向量 k 与基因查询轴 q 逐元素相乘得向量力 E，调制神经值向量 v，经基因响应轴软归一化投影出单基因上下调效应（负=下调，正=上调），无 kNN、单次前向 |
+| v37 | v25 磁流底座 + kq 扰动因子向量作用力 |
+| **v38（当前最新）** | 显式磁极—磁场—细胞相互作用：有符号磁极、软化逆平方距离、细胞状态易感度和响应方向投影；零初始化混合门保持初始函数与 v37 一致 |
+
+v38 的潜空间计算类比公式为 `N_t = mean_{i≠t}(r_ti²+ε)⁻¹`，`B_ti = q_t(p_i-p_t) / [r_ti(r_ti²+ε)N_t]`，`F_ti = q_iχ_i(x)B_ti`，响应为 `γ<F_ti,d_i(x)>ρ_i(x)`。正源强度吸收进有效磁极 `q_t`。模型排除奇异自相互作用，并保留独立的靶基因自效应项。这里的“磁极”和“磁场”是可学习潜变量，不是细胞生物物理磁单极子的主张。实现见 `worldmodel/model_world_h1_v38.py`，数值与极性测试见 `worldmodel/test_v38_local.py`。
 
 动力学底座（`pipeline/17_worldmodel_dynamics.py`）：VAE latent 作为世界状态 z → 编码器局部线性化估计 latent 速度 → MLP 学习转移场 fθ: z → dz/dt → in-silico 干预 rollout。
 
+`magrsi/` 另包含支持集保持的 RSI 门控、递归场轴更新、整数稀疏 H5AD 转换及回归测试。RSI 是确定性的推理期算子，不等同于自主自训练或已验证的准确率提升。
+
 ### 评估基准
 
+- `launchers/train_v38_holdout.sh`：相同 seed、数据划分和训练配置下的 v37/v38 留出扰动对照；结果写入 `results/v38_holdout_benchmark.json`
+- 固定 seed 543、50 个随机留出扰动的服务器实测：v38 Pearson 0.361568、cosine 0.361437；均值基线 Pearson 0.215302，ridge 0.215547，最近邻 0.156758。v37 Pearson 0.361568，因此磁极项在该划分下相对 v37 无实质增益，不能据此宣称显著提升。
 - `pipeline/09` Norman 组合扰动；`pipeline/12` 跨数据集迁移；`pipeline/19-21` GEARS 对比与迁移、JEPA 对比
 - 指标：delta_pearson / delta_mae_norm / DEG top-50 / 判别排名；动力学指标：velocity MSE/cosine、未来状态预测
 - in-silico KO（`pipeline/07`）、去噪（`pipeline/14`）、单细胞级推理（`pipeline/13`）
@@ -95,7 +102,8 @@
 ## 目录结构
 
 ```
-worldmodel/    扰动 world model：模型 v13→v37、训练/评估/先验构建/调试脚本
+worldmodel/    扰动 world model：模型 v13→v38、训练/评估/先验构建/调试脚本
+magrsi/        RSI 门控、递归场轴、整数稀疏转换及端到端测试
 pipeline/      编号 00-21 全流程（质控→速度场→通路→CCC→基准→KO→GEARS/JEPA 对比）
 subflow3d/     3D 线粒体生成：数据构建、流匹配训练、focal/SDF 消融、级联采样、渲染
 launchers/     集群提交/训练脚本（VCC_TOKEN 用环境变量注入，勿硬编码）
