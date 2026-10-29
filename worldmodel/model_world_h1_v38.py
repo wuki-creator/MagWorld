@@ -42,7 +42,7 @@ class WorldModelH1V38(WorldModelH1V37):
         self.pole_mix = nn.Parameter(torch.zeros(()))
 
     def pole_interaction(self, pos, charge, indices, moment, src_diff, d_src,
-                         u_src, response_direction):
+                         u_src, response_direction, h=None):
         """Return the scalar pole force projected onto each response axis."""
         signs = torch.tanh(self.pole_sign)
         signed_charge = charge * signs
@@ -160,7 +160,7 @@ class WorldModelH1V38(WorldModelH1V37):
             r = self.response_right(phi_n) @ self.response_left.weight
 
             dx_pole = self.pole_interaction(
-                pos, charge, indices, s, src_diff, d_src, u_src, d0
+                pos, charge, indices, s, src_diff, d_src, u_src, d0, h=h
             )
             dx = a * gate * (torch.tanh(r) + dx_tf + dx_pole)
             h = h + dx

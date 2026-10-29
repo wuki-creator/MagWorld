@@ -31,7 +31,7 @@
 - 共表达谱（对照细胞基因 PCA 嵌入）
 - HGNC 基因家族特征
 
-### 算法演进（`worldmodel/model_world_h1_v*.py`，13 → 38）
+### 算法演进（`worldmodel/model_world_h1_v*.py`，13 → 39）
 
 | 版本 | 核心思想 |
 |---|---|
@@ -42,9 +42,12 @@
 | v30-v34 | 规模与训练策略迭代（辅助任务、DGIDB 图先验、正则化） |
 | v35-v36 | 局部校验与结构精简（`test_v35_37_local.py`） |
 | v37 | v25 磁流底座 + kq 扰动因子向量作用力 |
-| **v38（当前最新）** | 显式磁极—磁场—细胞相互作用：有符号磁极、软化逆平方距离、细胞状态易感度和响应方向投影；零初始化混合门保持初始函数与 v37 一致 |
+| v38 | 显式磁极—磁场—细胞相互作用：有符号磁极、软化逆平方距离、细胞状态易感度和响应方向投影；零初始化混合门保持初始函数与 v37 一致 |
+| **v39（当前最新）** | 磁极、各向异性偶极、局部和低秩自由场四专家；神经网络逐细胞/基因门控；按累计响应递归重组合；含非递归与单专家消融 |
 
 v38 的潜空间计算类比公式为 `N_t = mean_{i≠t}(r_ti²+ε)⁻¹`，`B_ti = q_t(p_i-p_t) / [r_ti(r_ti²+ε)N_t]`，`F_ti = q_iχ_i(x)B_ti`，响应为 `γ<F_ti,d_i(x)>ρ_i(x)`。正源强度吸收进有效磁极 `q_t`。模型排除奇异自相互作用，并保留独立的靶基因自效应项。这里的“磁极”和“磁场”是可学习潜变量，不是细胞生物物理磁单极子的主张。实现见 `worldmodel/model_world_h1_v38.py`，数值与极性测试见 `worldmodel/test_v38_local.py`。
+
+v39 计算四个径向场系数 `E_ti^(k)`，通过 `α_ti^(k)(h_r)=softmax(MLP(state,E,d_src,q,compatibility))` 动态组合为 `E~_ti=Σ_k α_ti^(k)E_ti^(k)`，再以 `h_{r+1}=h_r+Δx(E~(h_r),h_r)` 递归更新。输出门 `field_mix` 零初始化，因此初始函数严格等于 v37；递归版和非递归版在第一步一致，后续步由 `h_r` 更新门控状态、易感度、响应方向与幅度。实现和测试见 `worldmodel/model_world_h1_v39.py`、`worldmodel/test_v39_local.py`。
 
 动力学底座（`pipeline/17_worldmodel_dynamics.py`）：VAE latent 作为世界状态 z → 编码器局部线性化估计 latent 速度 → MLP 学习转移场 fθ: z → dz/dt → in-silico 干预 rollout。
 
@@ -54,6 +57,9 @@ v38 的潜空间计算类比公式为 `N_t = mean_{i≠t}(r_ti²+ε)⁻¹`，`B_
 
 - `launchers/train_v38_holdout.sh`：相同 seed、数据划分和训练配置下的 v37/v38 留出扰动对照；结果写入 `results/v38_holdout_benchmark.json`
 - 固定 seed 543、50 个随机留出扰动的服务器实测：v38 Pearson 0.361568、cosine 0.361437；均值基线 Pearson 0.215302，ridge 0.215547，最近邻 0.156758。v37 Pearson 0.361568，因此磁极项在该划分下相对 v37 无实质增益，不能据此宣称显著提升。
+- `launchers/train_v39_ablation.sh`：递归 1/2/4/8 步、非递归混合和四个单专家消融；`train_v39_base_depths.sh` 补充同深度关闭场基线，`train_v39_warm_ablation.sh` 检查预声明的非零门控激活对照。原始结果和派生比较分别在 `results/v39_*benchmark.json`、`results/v39_comparative_analysis.json`。该 50 扰动集合用于 checkpoint 选择，属于验证集而非独立测试集。
+- 固定 seed 543 的同深度结果：关闭场基线 r1/r2/r4 的 Pearson 分别为 0.362680、0.362777、0.361659；零初始化混合模型分别为 0.362682、0.362780、0.361656，差值仅约 10⁻⁶。r4 非递归及四个单专家相对基线也只有约 10⁻⁶ 差异。
+- 激活对照（`field_mix=0.05`，门控末层标准差 0.02，初始函数不再等于 v37）中，warm r1 Pearson 为 0.363079，相对同深度基线增加 0.000398，但 NMAE 从 0.998836 变为 0.998882、direction fidelity 从 0.711445 降为 0.710912；warm r2 Pearson 下降 0.000069，warm r4 与非递归 r4 无实质变化。因此当前单 seed、单验证划分不支持“递归神经网络场组合带来一致或显著提升”的结论。
 - `pipeline/09` Norman 组合扰动；`pipeline/12` 跨数据集迁移；`pipeline/19-21` GEARS 对比与迁移、JEPA 对比
 - 指标：delta_pearson / delta_mae_norm / DEG top-50 / 判别排名；动力学指标：velocity MSE/cosine、未来状态预测
 - in-silico KO（`pipeline/07`）、去噪（`pipeline/14`）、单细胞级推理（`pipeline/13`）

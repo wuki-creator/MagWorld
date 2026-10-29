@@ -1,0 +1,314 @@
+{
+  "protocol": {
+    "seed": 543,
+    "random_holdout": 50,
+    "evaluation_role": "validation holdout used for checkpoint selection; not an independent test set",
+    "comparison": "same recursion depth, data split and training configuration; warm controls deliberately change field initialization"
+  },
+  "zero_initialized_depth_matched": {
+    "r1": {
+      "model": {
+        "objective": 0.31913017665051596,
+        "pearson": 0.36268165707588196,
+        "cosine": 0.3625524044036865,
+        "nmae": 0.9988315105438232,
+        "direction_fidelity": 0.7114454975157813
+      },
+      "matched_base": {
+        "objective": 0.31912827824257983,
+        "pearson": 0.3626804053783417,
+        "cosine": 0.36255112290382385,
+        "nmae": 0.9988356232643127,
+        "direction_fidelity": 0.7114454975157813
+      },
+      "delta_model_minus_base": {
+        "pearson": 1.2516975402832031e-06,
+        "objective": 1.898407936129498e-06,
+        "cosine": 1.2814998626708984e-06,
+        "nmae": -4.112720489501953e-06,
+        "direction_fidelity": 0.0
+      }
+    },
+    "r2": {
+      "model": {
+        "objective": 0.318784480751677,
+        "pearson": 0.36278027296066284,
+        "cosine": 0.3626500368118286,
+        "nmae": 1.0029314756393433,
+        "direction_fidelity": 0.6994063231212896
+      },
+      "matched_base": {
+        "objective": 0.3187819058310227,
+        "pearson": 0.3627774119377136,
+        "cosine": 0.36264708638191223,
+        "nmae": 1.0029289722442627,
+        "direction_fidelity": 0.6994063231212896
+      },
+      "delta_model_minus_base": {
+        "pearson": 2.86102294921875e-06,
+        "objective": 2.574920654252466e-06,
+        "cosine": 2.950429916381836e-06,
+        "nmae": 2.5033950805664062e-06,
+        "direction_fidelity": 0.0
+      }
+    },
+    "r4": {
+      "model": {
+        "objective": 0.3147556204918346,
+        "pearson": 0.36165592074394226,
+        "cosine": 0.3615139126777649,
+        "nmae": 1.007660984992981,
+        "direction_fidelity": 0.7043128565105086
+      },
+      "matched_base": {
+        "objective": 0.3147585530403576,
+        "pearson": 0.36165890097618103,
+        "cosine": 0.3615168631076813,
+        "nmae": 1.0076611042022705,
+        "direction_fidelity": 0.7043128565105086
+      },
+      "delta_model_minus_base": {
+        "pearson": -2.9802322387695312e-06,
+        "objective": -2.932548523015832e-06,
+        "cosine": -2.950429916381836e-06,
+        "nmae": -1.1920928955078125e-07,
+        "direction_fidelity": 0.0
+      }
+    },
+    "r8": {
+      "model": {
+        "objective": 0.31342796579915533,
+        "pearson": 0.35794970393180847,
+        "cosine": 0.35782185196876526,
+        "nmae": 1.0020473003387451,
+        "direction_fidelity": 0.6977098623579804
+      },
+      "matched_base": {
+        "objective": 0.3134279300363685,
+        "pearson": 0.3579496741294861,
+        "cosine": 0.3578217625617981,
+        "nmae": 1.0020469427108765,
+        "direction_fidelity": 0.6977098623579804
+      },
+      "delta_model_minus_base": {
+        "pearson": 2.9802322387695312e-08,
+        "objective": 3.5762786843029915e-08,
+        "cosine": 8.940696716308594e-08,
+        "nmae": 3.5762786865234375e-07,
+        "direction_fidelity": 0.0
+      }
+    }
+  },
+  "warm_activation_depth_matched": {
+    "mix_r1": {
+      "model": {
+        "objective": 0.32072633853817645,
+        "pearson": 0.36307862401008606,
+        "cosine": 0.3629487156867981,
+        "nmae": 0.9988819360733032,
+        "direction_fidelity": 0.7109123820332849
+      },
+      "matched_base": {
+        "objective": 0.31912827824257983,
+        "pearson": 0.3626804053783417,
+        "cosine": 0.36255112290382385,
+        "nmae": 0.9988356232643127,
+        "direction_fidelity": 0.7114454975157813
+      },
+      "delta_model_minus_base": {
+        "pearson": 0.00039821863174438477,
+        "objective": 0.001598060295596615,
+        "cosine": 0.00039759278297424316,
+        "nmae": 4.6312808990478516e-05,
+        "direction_fidelity": -0.0005331154824964601
+      }
+    },
+    "mix_r2": {
+      "model": {
+        "objective": 0.3194738568867444,
+        "pearson": 0.36270827054977417,
+        "cosine": 0.36257803440093994,
+        "nmae": 1.0029196739196777,
+        "direction_fidelity": 0.6978097173209615
+      },
+      "matched_base": {
+        "objective": 0.3187819058310227,
+        "pearson": 0.3627774119377136,
+        "cosine": 0.36264708638191223,
+        "nmae": 1.0029289722442627,
+        "direction_fidelity": 0.6994063231212896
+      },
+      "delta_model_minus_base": {
+        "pearson": -6.914138793945312e-05,
+        "objective": 0.0006919510557216735,
+        "cosine": -6.905198097229004e-05,
+        "nmae": -9.298324584960938e-06,
+        "direction_fidelity": -0.0015966058003280548
+      }
+    },
+    "mix_r4": {
+      "model": {
+        "objective": 0.31475795699390985,
+        "pearson": 0.3616582751274109,
+        "cosine": 0.3615162670612335,
+        "nmae": 1.0076611042022705,
+        "direction_fidelity": 0.7043128565105086
+      },
+      "matched_base": {
+        "objective": 0.3147585530403576,
+        "pearson": 0.36165890097618103,
+        "cosine": 0.3615168631076813,
+        "nmae": 1.0076611042022705,
+        "direction_fidelity": 0.7043128565105086
+      },
+      "delta_model_minus_base": {
+        "pearson": -6.258487701416016e-07,
+        "objective": -5.960464477539062e-07,
+        "cosine": -5.960464477539062e-07,
+        "nmae": 0.0,
+        "direction_fidelity": 0.0
+      }
+    },
+    "static_r4": {
+      "model": {
+        "objective": 0.31475709868702506,
+        "pearson": 0.3616575598716736,
+        "cosine": 0.3615155518054962,
+        "nmae": 1.007662057876587,
+        "direction_fidelity": 0.7043128565105086
+      },
+      "matched_base": {
+        "objective": 0.3147585530403576,
+        "pearson": 0.36165890097618103,
+        "cosine": 0.3615168631076813,
+        "nmae": 1.0076611042022705,
+        "direction_fidelity": 0.7043128565105086
+      },
+      "delta_model_minus_base": {
+        "pearson": -1.341104507446289e-06,
+        "objective": -1.4543533325417357e-06,
+        "cosine": -1.3113021850585938e-06,
+        "nmae": 9.5367431640625e-07,
+        "direction_fidelity": 0.0
+      }
+    }
+  },
+  "r4_single_expert_and_static": {
+    "static": {
+      "model": {
+        "objective": 0.3147573907497845,
+        "pearson": 0.3616577386856079,
+        "cosine": 0.36151570081710815,
+        "nmae": 1.0076611042022705,
+        "direction_fidelity": 0.7043128565105086
+      },
+      "matched_base": {
+        "objective": 0.3147585530403576,
+        "pearson": 0.36165890097618103,
+        "cosine": 0.3615168631076813,
+        "nmae": 1.0076611042022705,
+        "direction_fidelity": 0.7043128565105086
+      },
+      "delta_model_minus_base": {
+        "pearson": -1.1622905731201172e-06,
+        "objective": -1.1622905731201172e-06,
+        "cosine": -1.1622905731201172e-06,
+        "nmae": 0.0,
+        "direction_fidelity": 0.0
+      }
+    },
+    "pole": {
+      "model": {
+        "objective": 0.31475840402874566,
+        "pearson": 0.3616587519645691,
+        "cosine": 0.36151671409606934,
+        "nmae": 1.0076611042022705,
+        "direction_fidelity": 0.7043128565105086
+      },
+      "matched_base": {
+        "objective": 0.3147585530403576,
+        "pearson": 0.36165890097618103,
+        "cosine": 0.3615168631076813,
+        "nmae": 1.0076611042022705,
+        "direction_fidelity": 0.7043128565105086
+      },
+      "delta_model_minus_base": {
+        "pearson": -1.4901161193847656e-07,
+        "objective": -1.4901161193847656e-07,
+        "cosine": -1.4901161193847656e-07,
+        "nmae": 0.0,
+        "direction_fidelity": 0.0
+      }
+    },
+    "dipole": {
+      "model": {
+        "objective": 0.31475787354740714,
+        "pearson": 0.36165809631347656,
+        "cosine": 0.36151614785194397,
+        "nmae": 1.0076608657836914,
+        "direction_fidelity": 0.7043128565105086
+      },
+      "matched_base": {
+        "objective": 0.3147585530403576,
+        "pearson": 0.36165890097618103,
+        "cosine": 0.3615168631076813,
+        "nmae": 1.0076611042022705,
+        "direction_fidelity": 0.7043128565105086
+      },
+      "delta_model_minus_base": {
+        "pearson": -8.046627044677734e-07,
+        "objective": -6.794929504616576e-07,
+        "cosine": -7.152557373046875e-07,
+        "nmae": -2.384185791015625e-07,
+        "direction_fidelity": 0.0
+      }
+    },
+    "local": {
+      "model": {
+        "objective": 0.31475537611279103,
+        "pearson": 0.36165568232536316,
+        "cosine": 0.3615137040615082,
+        "nmae": 1.00766122341156,
+        "direction_fidelity": 0.7043128565105086
+      },
+      "matched_base": {
+        "objective": 0.3147585530403576,
+        "pearson": 0.36165890097618103,
+        "cosine": 0.3615168631076813,
+        "nmae": 1.0076611042022705,
+        "direction_fidelity": 0.7043128565105086
+      },
+      "delta_model_minus_base": {
+        "pearson": -3.2186508178710938e-06,
+        "objective": -3.1769275665727292e-06,
+        "cosine": -3.159046173095703e-06,
+        "nmae": 1.1920928955078125e-07,
+        "direction_fidelity": 0.0
+      }
+    },
+    "free": {
+      "model": {
+        "objective": 0.31475520325932116,
+        "pearson": 0.3616553843021393,
+        "cosine": 0.3615134060382843,
+        "nmae": 1.0076603889465332,
+        "direction_fidelity": 0.7043128565105086
+      },
+      "matched_base": {
+        "objective": 0.3147585530403576,
+        "pearson": 0.36165890097618103,
+        "cosine": 0.3615168631076813,
+        "nmae": 1.0076611042022705,
+        "direction_fidelity": 0.7043128565105086
+      },
+      "delta_model_minus_base": {
+        "pearson": -3.516674041748047e-06,
+        "objective": -3.3497810364435665e-06,
+        "cosine": -3.4570693969726562e-06,
+        "nmae": -7.152557373046875e-07,
+        "direction_fidelity": 0.0
+      }
+    }
+  },
+  "interpretation": "Depth explains the apparent r1/r2 gain over the r4 baseline. Zero-initialized field mixtures have only approximately 1e-6 effects at matched depth. Warm r1 changes some metrics by approximately 1e-4 to 1e-3, but NMAE and direction fidelity do not improve; warm r2/r4 and static controls do not show a consistent gain. One validation split and one seed do not support a claim of significant improvement."
+}
